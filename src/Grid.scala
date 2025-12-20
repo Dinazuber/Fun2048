@@ -1,8 +1,10 @@
+import java.awt.Color
+
 class Grid (size: Int = 4) {
 
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
 
-  //Fill the grid with 0s as default value
+  /** Vide la grille en mettant toutes les valeurs à 0 */
   def resetGrid() = {
     for (r <- grid.indices) {
       for (c <- grid(r).indices) {
@@ -11,6 +13,7 @@ class Grid (size: Int = 4) {
     }
   }
 
+  /** Permet de remettre à jour les positions des nombres */
   def updateNumPos() = {
     for (r <- grid.indices) {
       for (c <- grid(r).indices) {
@@ -20,6 +23,13 @@ class Grid (size: Int = 4) {
     }
   }
 
+  def getCellColor(xPos: Int, yPos: Int): Color = {
+    grid(yPos)(xPos).bgColor
+  }
+
+  def getCellNum(xPos: Int, yPos: Int): Int = {
+    grid(yPos)(xPos).number
+  }
 
   //TODO For now i've let them blank, need to implements movement and grid display
   //first to be sure the left movement works properly before coding the remaining
