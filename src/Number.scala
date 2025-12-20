@@ -2,17 +2,17 @@ import java.awt.Color
 
 class Number {
 
-  var numéro: Int = _
+  var number: Int = _
   var xPosGrid: Int = _ //Define it's X position (index) on the grid
   var yPosGrid: Int = _ //Define it's Y position (index) on the grid
   var bgColor = new Color(255, 255, 255)
 
   def this(num: Int = 0, xpos: Int, ypos: Int) = {
     this()
-    numéro = num
+    number = num
     xPosGrid = xpos
     yPosGrid = ypos
-    setColor(numéro)
+    setColor(number)
   }
 
   private def setColor(number: Int) = {
