@@ -1,8 +1,10 @@
 import hevs.graphics.FunGraphics
 
+import java.awt.Color
+
 class Game {
   val windowWidth : Int = 1080
-  var window : FunGraphics = new FunGraphics(windowWidth, windowWidth)
+  var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
 
   var numCells : Int = 4
   val gridWidth : Int = 960
@@ -19,17 +21,18 @@ class Game {
 
   /** Dessine l'ensemble du plateau de jeu */
   def drawBoard() = {
-    val offsetStart: Int = windowWidth - gridWidth
+    val offsetStart: Int = (windowWidth - gridWidth) / 2
     //Draw background color
     for (r <- 0 until numCells) {
       for (c <- 0 until numCells) {
         val xPos: Int = offsetStart + c*widthCell
         val yPos: Int = offsetStart + r*widthCell
-        window.setColor(grid.getCellColor(c, r))
-        window.drawRect(xPos, yPos, widthCell, widthCell)
+        //window.setColor(grid.getCellColor(c, r))
+        window.setColor(Color.red)
+        window.drawFillRect(xPos, yPos, widthCell, widthCell)
+
       }
     }
-    //Draw grid
     //Draw Number
   }
 
