@@ -33,6 +33,18 @@ class Game {
 
       }
     }
+    //draw Grid with stroke
+    window.setColor(Color.black)
+    val stroke: Int = 3
+    for (x <- 0 to 4) {
+      var varPos: Int = offsetStart + x*widthCell
+      val PosStart: Int = offsetStart
+      val PosEnd: Int = offsetStart + numCells*widthCell
+      for (c <- PosStart to PosEnd) {
+        drawWithStroke(stroke, varPos, c) //Draw Vertical lines
+        drawWithStroke(stroke, c, varPos) //Draw Horizontal lines
+      }
+    }
     //Draw Number
   }
 
