@@ -3,4 +3,6 @@
 Ce projet recrée le célèbre jeu 2048 dans le language Scala !
 
 ## Changelog
-- Test de l'affichage du fond la cellule avec du rouge comme tout est à 0 pour le moment
+- Dessine la grille (avec taille personnalisé) du plateau
+- Dessine le numéro de la cellule
+- Remplacer le fond rouge par défaut par la valeur attribué à la cellule

@@ -2,7 +2,7 @@ import java.awt.Color
 
 class Number {
 
-  var number: Int = _
+  var number: Int = 0
   var xPosGrid: Int = _ //Define it's X position (index) on the grid
   var yPosGrid: Int = _ //Define it's Y position (index) on the grid
   var bgColor = new Color(255, 255, 255)

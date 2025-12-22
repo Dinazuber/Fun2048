@@ -1,6 +1,6 @@
 import hevs.graphics.FunGraphics
 
-import java.awt.Color
+import java.awt.{Color, Font}
 
 class Game {
   val windowWidth : Int = 1080
@@ -27,16 +27,17 @@ class Game {
       for (c <- 0 until numCells) {
         val xPos: Int = offsetStart + c*widthCell
         val yPos: Int = offsetStart + r*widthCell
-        //window.setColor(grid.getCellColor(c, r))
-        window.setColor(Color.red)
+        window.setColor(grid.getCellColor(c, r))
+        //window.setColor(Color.red)
         window.drawFillRect(xPos, yPos, widthCell, widthCell)
+        window.drawString(xPos + widthCell/2, (yPos+widthCell/2)-30, s"${grid.getCellNum(c, r)}", "Arial", 0, widthCell/4, Color.black, 0, 1)
 
       }
     }
     //draw Grid with stroke
     window.setColor(Color.black)
     val stroke: Int = 3
-    for (x <- 0 to 4) {
+    for (x <- 0 to numCells) {
       var varPos: Int = offsetStart + x*widthCell
       val PosStart: Int = offsetStart
       val PosEnd: Int = offsetStart + numCells*widthCell
@@ -45,7 +46,7 @@ class Game {
         drawWithStroke(stroke, c, varPos) //Draw Horizontal lines
       }
     }
-    //Draw Number
+
   }
 
   /**
