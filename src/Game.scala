@@ -1,16 +1,37 @@
 import hevs.graphics.FunGraphics
 
+import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
 
 class Game {
-  val windowWidth : Int = 1080
-  var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
+  private val windowWidth : Int = 1080
+  private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
 
-  var numCells : Int = 4
-  val gridWidth : Int = 960
-  val widthCell : Int = gridWidth / numCells
+  private var numCells : Int = 4
+  private val gridWidth : Int = 960
+  private val widthCell : Int = gridWidth / numCells
 
-  var grid: Grid = _
+  private var grid: Grid = _
+
+  var keyListener = new KeyListener {
+    override def keyTyped(e: KeyEvent): Unit = {
+
+    }
+
+    override def keyPressed(e: KeyEvent): Unit = {
+
+    }
+
+    override def keyReleased(e: KeyEvent): Unit = {
+      e.getKeyCode match {
+        case KeyEvent.VK_UP => grid.mergeUp()
+        case KeyEvent.VK_RIGHT => grid.mergeRight()
+        case KeyEvent.VK_DOWN => grid.mergeDown()
+        case KeyEvent.VK_LEFT => grid.mergeLeft()
+      }
+    }
+  }
+  window.setKeyManager(keyListener)
 
 
   /** Permet de lancer une nouvelle partie */

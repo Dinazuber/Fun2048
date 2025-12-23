@@ -71,7 +71,9 @@ class Grid (size: Int = 4) {
   //TODO For now i've let them blank, need to implements movement and grid display
   //first to be sure the left movement works properly before coding the remaining
   //direction
-  def mergeUp() = ???
+  def mergeUp() = {
+    println("Up")
+  }
   def mergeDown() = ???
   def mergeRight() = ???
 
