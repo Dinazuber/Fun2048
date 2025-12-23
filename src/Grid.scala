@@ -33,8 +33,8 @@ class Grid (size: Int = 4) {
   }
 
   def addRandomNumber() = {
-    var xAvailable: Array[Int] = new Array[Int](math.pow(grid.length, 2).toInt)
-    var yAvailable: Array[Int] = new Array[Int](math.pow(grid.length, 2).toInt)
+    var xAvailable: Array[Int] = new Array[Int](1)
+    var yAvailable: Array[Int] = new Array[Int](1)
     for (r <-grid.indices) {
       for (c <-grid(r).indices) {
         if (grid(r)(c).number == 0) {
@@ -51,7 +51,7 @@ class Grid (size: Int = 4) {
     var yPosRandom = Random.between(0, yAvailable.count(_ != -1))
     val xPos = xAvailable.filter(_ != -1)(xPosRandom)
     val yPos = yAvailable.filter(_ != -1)(yPosRandom)
-    grid(yPos)(xPos) = new Number(2, xPos, yPos)
+    grid(xPos)(yPos) = new Number(2, xPos, yPos)
   }
 
   //TODO For now i've let them blank, need to implements movement and grid display
