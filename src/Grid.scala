@@ -24,14 +24,28 @@ class Grid (size: Int = 4) {
     }
   }
 
+  /**
+   * Get the background color of a cell
+   * @param xPos it's grid X index
+   * @param yPos it's grid Y index
+   * @return The background color
+   */
   def getCellColor(xPos: Int, yPos: Int): Color = {
     grid(yPos)(xPos).bgColor
   }
 
+  /**
+   * Get the number assigned to a cell
+   * @param xPos it's grid X index
+   * @param yPos it's grid Y index
+   * @return The number assigned
+   */
   def getCellNum(xPos: Int, yPos: Int): Int = {
     grid(yPos)(xPos).number
   }
 
+  /** Add a 2 at a random available spot on
+   * the board */
   def addRandomNumber() = {
     var xAvailable: Array[Int] = new Array[Int](1)
     var yAvailable: Array[Int] = new Array[Int](1)
