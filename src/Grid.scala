@@ -1,4 +1,5 @@
 import java.awt.Color
+import scala.util.Random
 
 class Grid (size: Int = 4) {
 
@@ -31,6 +32,28 @@ class Grid (size: Int = 4) {
     grid(yPos)(xPos).number
   }
 
+  def addRandomNumber() = {
+    var xAvailable: Array[Int] = new Array[Int](math.pow(grid.length, 2).toInt)
+    var yAvailable: Array[Int] = new Array[Int](math.pow(grid.length, 2).toInt)
+    for (r <-grid.indices) {
+      for (c <-grid(r).indices) {
+        if (grid(r)(c).number == 0) {
+          xAvailable +:= c
+          yAvailable +:= r
+        }
+        else {
+          xAvailable +:= -1
+          yAvailable +:= -1
+        }
+      }
+    }
+    var xPosRandom = Random.between(0, xAvailable.count(_ != -1))
+    var yPosRandom = Random.between(0, yAvailable.count(_ != -1))
+    val xPos = xAvailable.filter(_ != -1)(xPosRandom)
+    val yPos = yAvailable.filter(_ != -1)(yPosRandom)
+    grid(yPos)(xPos) = new Number(2, xPos, yPos)
+  }
+
   //TODO For now i've let them blank, need to implements movement and grid display
   //first to be sure the left movement works properly before coding the remaining
   //direction
@@ -56,6 +79,7 @@ class Grid (size: Int = 4) {
       var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
       grid(r) = Array.concat(mergeFiltered, remainingZero)
       updateNumPos()
+      addRandomNumber()
     }
   }
 }

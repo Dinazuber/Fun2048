@@ -18,9 +18,9 @@ class Number {
   private def setColor(number: Int) = {
     number match {
       //TODO Need to change the colors to the matching one from the OG game
-      case 0 => bgColor = new Color(0, 0, 0)
+      case 0 => bgColor = new Color(255, 255, 255)
 
-      case 2 => bgColor = new Color(0, 0, 0)
+      case 2 => bgColor = new Color(100, 100, 100)
 
       case 4 => bgColor = new Color(0, 0, 0)
 

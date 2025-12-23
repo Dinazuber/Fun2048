@@ -21,6 +21,7 @@ class Game {
 
   /** Dessine l'ensemble du plateau de jeu */
   def drawBoard() = {
+    grid.addRandomNumber()
     val offsetStart: Int = (windowWidth - gridWidth) / 2
     //Draw background color
     for (r <- 0 until numCells) {
@@ -46,7 +47,6 @@ class Game {
         drawWithStroke(stroke, c, varPos) //Draw Horizontal lines
       }
     }
-
   }
 
   /**
