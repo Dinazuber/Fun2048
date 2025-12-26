@@ -47,25 +47,34 @@ class Grid (size: Int = 4) {
   /** Add a 2 at a random available spot on
    * the board */
   def addRandomNumber() = {
-    var xAvailable: Array[Int] = new Array[Int](1)
-    var yAvailable: Array[Int] = new Array[Int](1)
+    val tabAvaible : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
+    val possibilities : Array[Int] = Array(2, 2, 2, 2, 2, 2, 2, 2, 4, 4)
+
+    //Create a new Tab of Boolean, if it's true, the slot is avaible for new number
     for (r <-grid.indices) {
       for (c <-grid(r).indices) {
         if (grid(r)(c).number == 0) {
-          xAvailable +:= c
-          yAvailable +:= r
+          tabAvaible(r)(c) = true
         }
         else {
-          xAvailable +:= -1
-          yAvailable +:= -1
+          tabAvaible(r)(c) = false
         }
       }
     }
-    var xPosRandom = Random.between(0, xAvailable.count(_ != -1))
-    var yPosRandom = Random.between(0, yAvailable.count(_ != -1))
-    val xPos = xAvailable.filter(_ != -1)(xPosRandom)
-    val yPos = yAvailable.filter(_ != -1)(yPosRandom)
-    grid(xPos)(yPos) = new Number(2, xPos, yPos)
+
+    //Get a random available position in the tab
+    var isAvailable : Boolean = false
+    var posX : Int = 0
+    var posY : Int = 0
+    do{
+      posX = Random.nextInt(grid.length)
+      posY = Random.nextInt(grid(0).length)
+      isAvailable = tabAvaible(posX)(posY)
+    } while(!isAvailable)
+
+    //Put a random number (between 2 and 4) in the random spot
+    val rdmNumId : Int = Random.nextInt(9)
+    grid(posX)(posY) = new Number(possibilities(rdmNumId), posX, posY)
   }
 
   //TODO For now i've let them blank, need to implements movement and grid display
@@ -84,7 +93,7 @@ class Grid (size: Int = 4) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
       //Merge if two same following numbers
-      for (c <- lineFiltered.length-1 until 0) {
+      for (c <- lineFiltered.length-1 until 0 by -1) {
           if (lineFiltered(c).number == lineFiltered(c-1).number) {
             //If there's gap, fill them with 0s to keep same array length
             lineFiltered(c) = new Number(0, r, c)
@@ -94,7 +103,7 @@ class Grid (size: Int = 4) {
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
       var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
       grid(r) = Array.concat(mergeFiltered, remainingZero)
-      updateNumPos()
+      //updateNumPos()
       addRandomNumber()
     }
   }
