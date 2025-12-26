@@ -70,7 +70,7 @@ class Grid (size: Int = 4) {
       posX = Random.nextInt(grid.length)
       posY = Random.nextInt(grid(0).length)
       isAvailable = tabAvaible(posX)(posY)
-    } while(!isAvailable)
+    } while(!isAvailable) //If the current spot is false, retry for a true one
 
     //Put a random number (between 2 and 4) in the random spot
     val rdmNumId : Int = Random.nextInt(9)
