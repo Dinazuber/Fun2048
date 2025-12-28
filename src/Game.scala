@@ -28,12 +28,20 @@ class Game {
         case KeyEvent.VK_UP => grid.mergeUp()
         case KeyEvent.VK_RIGHT => grid.mergeRight()
         case KeyEvent.VK_DOWN => grid.mergeDown()
-        case KeyEvent.VK_LEFT => grid.mergeLeft()
+        case KeyEvent.VK_LEFT => {
+          grid.mergeLeft()
+          resetFunGrid()
+          drawBoard()
+
+        }
       }
     }
   }
   window.setKeyManager(keyListener)
 
+  def resetFunGrid() : Unit = {
+    window.clear()
+  }
 
   /** Permet de lancer une nouvelle partie */
   def startNewGame(): Unit = {
