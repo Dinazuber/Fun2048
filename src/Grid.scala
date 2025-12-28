@@ -83,7 +83,34 @@ class Grid (size: Int = 4) {
   def mergeUp() = {
     println("Up")
   }
-  def mergeDown() = ???
+  def mergeDown() = {
+    for(r <- grid.indices){
+      var column : Array[Number] = new Array[Number](grid.length)
+      //Get the column
+      for(c <- grid(r).indices){
+        column(c) = grid(c)(r)
+      }
+      //Filter the column
+      var columnFiltered : Array[Number] = column.filter(_.number != 0)
+      //Merge if two same number
+      for(c <- 0 until columnFiltered.length-1){
+        if(columnFiltered(c).number == columnFiltered(c+1).number){
+          columnFiltered(c) = new Number(0, r, c)
+          columnFiltered(c+1) = new Number(columnFiltered(c+1).number * 2, r, c)
+        }
+      }
+      var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
+      var remainingZero : Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
+      //Get the tab of the column (the final one)
+      var finalColumn: Array[Number] = Array.concat(remainingZero, mergeFiltered)
+      //Put the new column in the grid
+      for(c <- grid(r).indices){
+        grid(c)(r) = finalColumn(c)
+      }
+    }
+    updateNumPos()
+    addRandomNumber()
+  }
   def mergeRight() = {
     for(r <- grid.indices){
       //Delete the 0 of the original line
