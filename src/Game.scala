@@ -25,9 +25,21 @@ class Game {
 
     override def keyReleased(e: KeyEvent): Unit = {
       e.getKeyCode match {
-        case KeyEvent.VK_UP => grid.mergeUp()
-        case KeyEvent.VK_RIGHT => grid.mergeRight()
-        case KeyEvent.VK_DOWN => grid.mergeDown()
+        case KeyEvent.VK_UP => {
+          grid.mergeUp()
+          resetFunGrid()
+          drawBoard()
+        }
+        case KeyEvent.VK_RIGHT => {
+          grid.mergeRight()
+          resetFunGrid()
+          drawBoard()
+        }
+        case KeyEvent.VK_DOWN => {
+          grid.mergeDown()
+          resetFunGrid()
+          drawBoard()
+        }
         case KeyEvent.VK_LEFT => {
           grid.mergeLeft()
           resetFunGrid()
