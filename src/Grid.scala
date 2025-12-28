@@ -84,12 +84,29 @@ class Grid (size: Int = 4) {
     println("Up")
   }
   def mergeDown() = ???
-  def mergeRight() = ???
+  def mergeRight() = {
+    for(r <- grid.indices){
+      //Delete the 0 of the original line
+      var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
+      //Merge if two numbers are the same
+      for(c <- 0 until lineFiltered.length-1){
+        if(lineFiltered(c).number == lineFiltered(c+1).number){
+          //Fill the void spot with a new 0
+          lineFiltered(c) = new Number(0, r, c)
+          lineFiltered(c+1) = new Number(lineFiltered(c+1).number * 2, r, c)
+        }
+      }
+      var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
+      var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
+      grid(r) = Array.concat(remainingZero, mergeFiltered)
+    }
+    updateNumPos()
+    addRandomNumber()
+  }
 
 
   /** Move all numbers to the left, merging them*/
   def mergeLeft() = {
-    printArray(grid)
     for (r <- grid.indices) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
@@ -108,7 +125,6 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
     addRandomNumber()
-    printArray(grid)
   }
 
   def printArray(f: Array[Array[Number]]): Unit = {
