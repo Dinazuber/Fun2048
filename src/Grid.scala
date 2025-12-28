@@ -81,7 +81,31 @@ class Grid (size: Int = 4) {
   //first to be sure the left movement works properly before coding the remaining
   //direction
   def mergeUp() = {
-    println("Up")
+    for(r <- grid.indices){
+      var column : Array[Number] = new Array[Number](grid.length)
+      //Get the column
+      for(c <- grid(r).indices){
+        column(c) = grid(c)(r)
+      }
+      //Filter the column
+      var columnFiltered : Array[Number] = column.filter(_.number != 0)
+      for(c <- columnFiltered.length-1 until 0 by -1){
+        if(columnFiltered(c).number == columnFiltered(c-1).number){
+          columnFiltered(c) = new Number(0, r, c)
+          columnFiltered(c-1) = new Number(columnFiltered(c-1).number * 2, r, c)
+        }
+      }
+      var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
+      var remainingZero : Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
+      //Get the tab of the column (the final one)
+      var finalColumn: Array[Number] = Array.concat(mergeFiltered, remainingZero)
+      //Put the new column in the grid
+      for(c <- grid(r).indices){
+        grid(c)(r) = finalColumn(c)
+      }
+    }
+    updateNumPos()
+    addRandomNumber()
   }
   def mergeDown() = {
     for(r <- grid.indices){
