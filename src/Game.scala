@@ -2,6 +2,7 @@ import hevs.graphics.FunGraphics
 
 import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
+import scala.util.Random
 
 class Game {
   private val windowWidth : Int = 1080
@@ -38,7 +39,10 @@ class Game {
   def startNewGame(): Unit = {
     grid = new Grid(numCells)
     grid.resetGrid()
-    grid.addRandomNumber()
+    val rdmStart : Int = Random.nextInt(3)
+    for(i <- 0 to rdmStart){
+      grid.addRandomNumber()
+    }
   }
 
   /** Dessine l'ensemble du plateau de jeu */
