@@ -38,6 +38,7 @@ class Game {
   def startNewGame(): Unit = {
     grid = new Grid(numCells)
     grid.resetGrid()
+    grid.addRandomNumber()
   }
 
   /** Dessine l'ensemble du plateau de jeu */
