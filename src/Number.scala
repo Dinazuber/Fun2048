@@ -47,7 +47,7 @@ class Number {
   }
 
   override def toString: String = {
-    s"Number : ${number}"
+    s"${number}"
   }
 
 }
