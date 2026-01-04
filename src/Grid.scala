@@ -47,17 +47,17 @@ class Grid (size: Int = 4) {
   /** Add a 2 at a random available spot on
    * the board */
   def addRandomNumber() = {
-    val tabAvaible : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
+    val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
     val possibilities : Array[Int] = Array(2, 2, 2, 2, 2, 2, 2, 2, 4, 4)
 
     //Create a new Tab of Boolean, if it's true, the slot is avaible for new number
     for (r <-grid.indices) {
       for (c <-grid(r).indices) {
         if (grid(r)(c).number == 0) {
-          tabAvaible(r)(c) = true
+          tabAvailable(r)(c) = true
         }
         else {
-          tabAvaible(r)(c) = false
+          tabAvailable(r)(c) = false
         }
       }
     }
@@ -69,7 +69,7 @@ class Grid (size: Int = 4) {
     do{
       posX = Random.nextInt(grid.length)
       posY = Random.nextInt(grid(0).length)
-      isAvailable = tabAvaible(posX)(posY)
+      isAvailable = tabAvailable(posX)(posY)
     } while(!isAvailable) //If the current spot is false, retry for a true one
 
     //Put a random number (between 2 and 4) in the random spot
