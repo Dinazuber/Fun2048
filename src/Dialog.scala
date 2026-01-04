@@ -22,9 +22,7 @@ object Dialog {
 
     val result = JOptionPane.showConfirmDialog(frame, "Restart game", "End game", JOptionPane.YES_NO_OPTION)
     if(result == JOptionPane.YES_OPTION){
-      //If the player wants to restart the game
-      var game: Game = new Game
-      game.startNewGame()
+      //TODO If the player wants to restart the game
     } else {
       //Finish the game
       System.exit(0)
