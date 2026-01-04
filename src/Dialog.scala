@@ -5,7 +5,7 @@ object Dialog {
 
     var selectedValue = JOptionPane.showInputDialog(
       null,
-      "Choose one",
+      "Choose the size of the game",
       "Input",
       JOptionPane.INFORMATION_MESSAGE,
       null,
