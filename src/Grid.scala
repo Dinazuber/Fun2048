@@ -50,6 +50,20 @@ class Grid (size: Int = 4) {
     val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
     val possibilities : Array[Int] = Array(2, 2, 2, 2, 2, 2, 2, 2, 4, 4)
 
+    //Verification of free spot
+    var isFree: Boolean = false
+    for(r <- grid.indices){
+      for(c <- grid.indices){
+        if(grid(r)(c).number == 0){
+          isFree = true
+        }
+      }
+    }
+
+    if(!isFree){
+      Dialog.endGame("GAME!")
+    }
+
     //Create a new Tab of Boolean, if it's true, the slot is avaible for new number
     for (r <-grid.indices) {
       for (c <-grid(r).indices) {
