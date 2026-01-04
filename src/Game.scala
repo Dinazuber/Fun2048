@@ -4,7 +4,7 @@ import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
 import scala.util.Random
 
-class Game {
+object Game {
   private val windowWidth : Int = 1080
   private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
 
@@ -57,8 +57,11 @@ class Game {
 
   /** Permet de lancer une nouvelle partie */
   def startNewGame(): Unit = {
+    println("ALEDDDDD DKIHBDJFHGBJDFHGBJHGDF")
     grid = new Grid(numCells)
     grid.resetGrid()
+    resetFunGrid()
+    drawBoard()
     val rdmStart : Int = Random.nextInt(3)
     for(i <- 0 to rdmStart){
       grid.addRandomNumber()
