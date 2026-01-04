@@ -1,17 +1,20 @@
 import javax.swing.{JButton, JFrame, JOptionPane, JTextField}
 object Dialog {
   def getSizeGame(message: String): Int = {
-    val options = new JTextField()
-    val frame = new JFrame(message)
+    var possibleValues = Array[AnyRef]("4", "5", "6")
 
-    JOptionPane.showMessageDialog(frame, options, message, JOptionPane.PLAIN_MESSAGE)
-    val s = new String(options.getText)
-    s match {
-      case "4" => return 4
-      case "5" => return 5
-      case "6" => return 6
-      case _ => getSizeGame("Enter the size of the game (4, 5 or 6)")
+    var selectedValue = JOptionPane.showInputDialog(
+      null,
+      "Choose one",
+      "Input",
+      JOptionPane.INFORMATION_MESSAGE,
+      null,
+      possibleValues,
+      possibleValues(0))
+    if(selectedValue == null){
+      System.exit(1)
     }
+    return selectedValue.toString.toInt
   }
 
   def endGame(message: String) : Unit = {
@@ -24,7 +27,7 @@ object Dialog {
       game.startNewGame()
     } else {
       //Finish the game
-      System.exit(1)
+      System.exit(0)
     }
   }
 }
