@@ -6,10 +6,11 @@ object Dialog {
 
     JOptionPane.showMessageDialog(frame, options, message, JOptionPane.PLAIN_MESSAGE)
     val s = new String(options.getText)
-    if(s == "4" || s == "5" || s == "6"){
-      s.toInt
-    } else {
-      getSizeGame("Choisissez une taille pour le jeu (4, 5 ou 6)")
+    s match {
+      case "4" => return 4
+      case "5" => return 5
+      case "6" => return 6
+      case _ => getSizeGame("Enter the size of the game (4, 5 or 6)")
     }
   }
 }
