@@ -8,7 +8,7 @@ class Game {
   private val windowWidth : Int = 1080
   private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
 
-  private var numCells : Int = 4
+  private val numCells : Int =  Dialog.getSizeGame("Enter the size of the game (4, 5 or 6)")
   private val gridWidth : Int = 960
   private val widthCell : Int = gridWidth / numCells
 
