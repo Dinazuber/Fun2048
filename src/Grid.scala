@@ -110,7 +110,7 @@ class Grid (size: Int = 4) {
   //TODO For now i've let them blank, need to implements movement and grid display
   //first to be sure the left movement works properly before coding the remaining
   //direction
-  def mergeUp() = {
+  def mergeUp(): Unit = {
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -136,7 +136,7 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
-  def mergeDown() = {
+  def mergeDown(): Unit = {
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -163,7 +163,7 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
-  def mergeRight() = {
+  def mergeRight(): Unit = {
     for(r <- grid.indices){
       //Delete the 0 of the original line
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
@@ -184,7 +184,7 @@ class Grid (size: Int = 4) {
 
 
   /** Move all numbers to the left, merging them*/
-  def mergeLeft() = {
+  def mergeLeft(): Unit = {
     for (r <- grid.indices) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
