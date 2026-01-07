@@ -4,6 +4,7 @@ import scala.util.Random
 class Grid (size: Int = 4) {
 
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
+  val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
 
   /** Vide la grille en mettant toutes les valeurs à 0 */
   def resetGrid() = {
@@ -57,11 +58,19 @@ class Grid (size: Int = 4) {
     isFree
   }
 
+  //Reset the available grid for a new game
+  def resetAvailableGrid(): Unit = {
+    for(i <- tabAvailable.indices){
+      for(j <- tabAvailable(i).indices){
+        tabAvailable(i)(j) = true
+      }
+    }
+  }
+
   /** Add a 2 at a random available spot on
    * the board */
     //Returns true if it's still free
   def addRandomNumber(): Boolean = {
-    val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
     val possibilities : Array[Int] = Array(2, 2, 2, 2, 2, 2, 2, 2, 4, 4)
     val isStillFree : Boolean = verifiesSpots(grid)
 

@@ -77,6 +77,7 @@ import scala.util.Random
     if(!isFree) {
       window.clear()
       startNewGame()
+      grid.resetAvailableGrid()
     }
   }
 
@@ -85,11 +86,11 @@ import scala.util.Random
     grid = new Grid(numCells)
     grid.resetGrid()
     resetFunGrid()
-    drawBoard()
     val rdmStart : Int = Random.nextInt(3)
     for(i <- 0 to rdmStart){
       grid.addRandomNumber()
     }
+    drawBoard()
   }
 
   /** Dessine l'ensemble du plateau de jeu */
