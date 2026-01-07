@@ -4,11 +4,11 @@ import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
 import scala.util.Random
 
-object Game {
+ class Game(size: Int) {
   private val windowWidth : Int = 1080
   private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
 
-  private val numCells : Int =  Dialog.getSizeGame("Enter the size of the game (4, 5 or 6)")
+  private val numCells : Int =  size
   private val gridWidth : Int = 960
   private val widthCell : Int = gridWidth / numCells
 
@@ -46,6 +46,9 @@ object Game {
           drawBoard()
 
         }
+        case _ => {
+
+        }
       }
     }
   }
@@ -55,9 +58,13 @@ object Game {
     window.clear()
   }
 
+  def resetGame() : Unit = {
+    window.clear()
+    startNewGame()
+  }
+
   /** Permet de lancer une nouvelle partie */
   def startNewGame(): Unit = {
-    println("ALEDDDDD DKIHBDJFHGBJDFHGBJHGDF")
     grid = new Grid(numCells)
     grid.resetGrid()
     resetFunGrid()
