@@ -124,7 +124,7 @@ class Grid (size: Int = 4) {
         if(columnFiltered(c).number == columnFiltered(c-1).number){
           columnFiltered(c) = new Number(0, r, c)
           columnFiltered(c-1) = new Number(columnFiltered(c-1).number * 2, r, c)
-          currScore += columnFiltered(c-1).number * 2
+          currScore += columnFiltered(c-1).number
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -152,7 +152,7 @@ class Grid (size: Int = 4) {
         if(columnFiltered(c).number == columnFiltered(c+1).number){
           columnFiltered(c) = new Number(0, r, c)
           columnFiltered(c+1) = new Number(columnFiltered(c+1).number * 2, r, c)
-          currScore += columnFiltered(c+1).number * 2
+          currScore += columnFiltered(c+1).number
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -176,7 +176,7 @@ class Grid (size: Int = 4) {
           //Fill the void spot with a new 0
           lineFiltered(c) = new Number(0, r, c)
           lineFiltered(c+1) = new Number(lineFiltered(c+1).number * 2, r, c)
-          currScore += lineFiltered(c+1).number * 2
+          currScore += lineFiltered(c+1).number
         }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
@@ -198,7 +198,7 @@ class Grid (size: Int = 4) {
             //If there's gap, fill them with 0s to keep same array length
             lineFiltered(c) = new Number(0, r, c)
             lineFiltered(c-1) = new Number(lineFiltered(c-1).number * 2, r, c-1)
-            currScore += lineFiltered(c-1).number * 2
+            currScore += lineFiltered(c-1).number
           }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
