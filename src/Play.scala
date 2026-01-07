@@ -1,4 +1,5 @@
 object Play extends App{
-  Game.startNewGame()
-  Game.drawBoard()
+  var game : Game = new Game(Dialog.getSizeGame("Choose between these"))
+  game.startNewGame()
+  game.drawBoard()
 }
