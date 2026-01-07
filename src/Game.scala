@@ -33,6 +33,7 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
+          println(grid.currScore)
         }
         case KeyEvent.VK_RIGHT => {
           grid.mergeRight()
@@ -42,6 +43,7 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
+          println(grid.currScore)
         }
         case KeyEvent.VK_DOWN => {
           grid.mergeDown()
@@ -51,6 +53,7 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
+          println(grid.currScore)
         }
         case KeyEvent.VK_LEFT => {
           grid.mergeLeft()
@@ -60,6 +63,7 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
+          println(grid.currScore)
         }
         case _ => {
 

@@ -7,6 +7,8 @@ class Grid (size: Int = 4) {
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
   val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
 
+  var currScore = 0
+
   /** Vide la grille en mettant toutes les valeurs à 0 */
   def resetGrid() = {
     for (r <- grid.indices) {
@@ -122,6 +124,7 @@ class Grid (size: Int = 4) {
         if(columnFiltered(c).number == columnFiltered(c-1).number){
           columnFiltered(c) = new Number(0, r, c)
           columnFiltered(c-1) = new Number(columnFiltered(c-1).number * 2, r, c)
+          currScore += columnFiltered(c-1).number * 2
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -149,6 +152,7 @@ class Grid (size: Int = 4) {
         if(columnFiltered(c).number == columnFiltered(c+1).number){
           columnFiltered(c) = new Number(0, r, c)
           columnFiltered(c+1) = new Number(columnFiltered(c+1).number * 2, r, c)
+          currScore += columnFiltered(c+1).number * 2
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -172,6 +176,7 @@ class Grid (size: Int = 4) {
           //Fill the void spot with a new 0
           lineFiltered(c) = new Number(0, r, c)
           lineFiltered(c+1) = new Number(lineFiltered(c+1).number * 2, r, c)
+          currScore += lineFiltered(c+1).number * 2
         }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
@@ -193,6 +198,7 @@ class Grid (size: Int = 4) {
             //If there's gap, fill them with 0s to keep same array length
             lineFiltered(c) = new Number(0, r, c)
             lineFiltered(c-1) = new Number(lineFiltered(c-1).number * 2, r, c-1)
+            currScore += lineFiltered(c-1).number * 2
           }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
