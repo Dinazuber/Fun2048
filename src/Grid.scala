@@ -3,6 +3,7 @@ import scala.util.Random
 
 class Grid (size: Int = 4) {
 
+  //Variables
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
   val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
 
