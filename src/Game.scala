@@ -23,6 +23,7 @@ import scala.util.Random
 
     }
 
+    //TODO if the player presses "R", it'll refresh the game
     override def keyReleased(e: KeyEvent): Unit = {
       e.getKeyCode match {
         case KeyEvent.VK_UP => {
