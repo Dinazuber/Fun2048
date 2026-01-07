@@ -87,6 +87,8 @@ class Grid (size: Int = 4) {
         }
       }
 
+      //TODO detection of the grid if the player can still play
+
       //Get a random available position in the tab
       var isAvailable: Boolean = false
       var posX: Int = 0
