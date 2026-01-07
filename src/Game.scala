@@ -26,6 +26,9 @@ import scala.util.Random
     //TODO if the player presses "R", it'll refresh the game
     override def keyReleased(e: KeyEvent): Unit = {
       e.getKeyCode match {
+        case KeyEvent.VK_R => {
+          resetGame()
+        }
         case KeyEvent.VK_UP => {
           grid.mergeUp()
           resetFunGrid()
@@ -74,12 +77,10 @@ import scala.util.Random
     window.clear()
   }
 
-  def resetGame(isFree: Boolean) : Unit = {
-    if(!isFree) {
-      window.clear()
-      startNewGame()
-      grid.resetAvailableGrid()
-    }
+  def resetGame() : Unit = {
+    window.clear()
+    startNewGame()
+    grid.resetAvailableGrid()
   }
 
   /** Permet de lancer une nouvelle partie */
