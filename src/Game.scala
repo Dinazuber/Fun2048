@@ -1,22 +1,96 @@
 import hevs.graphics.FunGraphics
 
+import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
+import scala.util.Random
 
-class Game {
-  val windowWidth : Int = 1080
-  var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
+ object Game {
+  private val windowWidth : Int = 1080
+  private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
 
-  var numCells : Int = 4
-  val gridWidth : Int = 960
-  val widthCell : Int = gridWidth / numCells
+  private val numCells : Int =  Dialog.getSizeGame("Choose between 4, 5, 6")
+  private val gridWidth : Int = 960
+  private val widthCell : Int = gridWidth / numCells
 
-  var grid: Grid = _
+  private var grid: Grid = _
 
+  var keyListener = new KeyListener {
+    override def keyTyped(e: KeyEvent): Unit = {
+
+    }
+
+    override def keyPressed(e: KeyEvent): Unit = {
+
+    }
+
+    override def keyReleased(e: KeyEvent): Unit = {
+      e.getKeyCode match {
+        case KeyEvent.VK_UP => {
+          grid.mergeUp()
+          resetFunGrid()
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
+        }
+        case KeyEvent.VK_RIGHT => {
+          grid.mergeRight()
+          resetFunGrid()
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
+        }
+        case KeyEvent.VK_DOWN => {
+          grid.mergeDown()
+          resetFunGrid()
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
+        }
+        case KeyEvent.VK_LEFT => {
+          grid.mergeLeft()
+          resetFunGrid()
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
+        }
+        case _ => {
+
+        }
+      }
+    }
+  }
+  window.setKeyManager(keyListener)
+
+  def resetFunGrid() : Unit = {
+    window.clear()
+  }
+
+  def resetGame(isFree: Boolean) : Unit = {
+    if(!isFree) {
+      window.clear()
+      startNewGame()
+      grid.resetAvailableGrid()
+    }
+  }
 
   /** Permet de lancer une nouvelle partie */
   def startNewGame(): Unit = {
     grid = new Grid(numCells)
     grid.resetGrid()
+    resetFunGrid()
+    val rdmStart : Int = Random.nextInt(3)
+    for(i <- 0 to rdmStart){
+      grid.addRandomNumber()
+    }
+    drawBoard()
   }
 
   /** Dessine l'ensemble du plateau de jeu */
