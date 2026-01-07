@@ -4,11 +4,11 @@ import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
 import scala.util.Random
 
- class Game(size: Int) {
+ object Game {
   private val windowWidth : Int = 1080
   private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
 
-  private val numCells : Int =  size
+  private val numCells : Int =  Dialog.getSizeGame("Choose between 4, 5, 6")
   private val gridWidth : Int = 960
   private val widthCell : Int = gridWidth / numCells
 
@@ -28,23 +28,38 @@ import scala.util.Random
         case KeyEvent.VK_UP => {
           grid.mergeUp()
           resetFunGrid()
-          drawBoard()
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
         }
         case KeyEvent.VK_RIGHT => {
           grid.mergeRight()
           resetFunGrid()
-          drawBoard()
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
         }
         case KeyEvent.VK_DOWN => {
           grid.mergeDown()
           resetFunGrid()
-          drawBoard()
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
         }
         case KeyEvent.VK_LEFT => {
           grid.mergeLeft()
           resetFunGrid()
-          drawBoard()
-
+          if(grid.addRandomNumber()){
+            drawBoard()
+          } else {
+            Dialog.endGame("GAME!", window)
+          }
         }
         case _ => {
 
@@ -58,9 +73,11 @@ import scala.util.Random
     window.clear()
   }
 
-  def resetGame() : Unit = {
-    window.clear()
-    startNewGame()
+  def resetGame(isFree: Boolean) : Unit = {
+    if(!isFree) {
+      window.clear()
+      startNewGame()
+    }
   }
 
   /** Permet de lancer une nouvelle partie */

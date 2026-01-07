@@ -1,3 +1,5 @@
+import hevs.graphics.FunGraphics
+
 import javax.swing.{JButton, JFrame, JOptionPane, JTextField}
 object Dialog {
   def getSizeGame(message: String): Int = {
@@ -17,15 +19,13 @@ object Dialog {
     return selectedValue.toString.toInt
   }
 
-  def endGame(message: String) : Unit = {
+  def endGame(message: String, game: FunGraphics) : Unit = {
     val frame = new JFrame(message)
 
     val result = JOptionPane.showConfirmDialog(frame, "Restart game", "End game", JOptionPane.YES_NO_OPTION)
     if(result == JOptionPane.YES_OPTION){
-      //TODO If the player wants to restart the game
-      var newGame : Game = new Game(Dialog.getSizeGame("Choose between these"))
-      newGame.startNewGame()
-      newGame.drawBoard()
+      //game.clear()
+      Game.startNewGame()
     } else {
       //Finish the game
       System.exit(0)
