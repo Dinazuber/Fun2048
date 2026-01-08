@@ -2,6 +2,7 @@ import hevs.graphics.FunGraphics
 
 import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
+import java.io.{BufferedOutputStream, FileOutputStream, PrintStream, PrintWriter}
 import scala.io.Source
 import scala.util.Random
 
@@ -14,6 +15,8 @@ import scala.util.Random
   private val numCells : Int =  Dialog.getSizeGame("Choose between 4, 5, 6")
   private val gridWidth : Int = 960
   private val widthCell : Int = gridWidth / numCells
+  private val scoreFile : String = "./res/highest_score.csv"
+  resetHighestScore(scoreFile)
 
   private var grid: Grid = _
 
@@ -43,7 +46,8 @@ import scala.util.Random
             drawBoard()
           } else {
             SoundPlayer.play("res/loosing.wav")
-            Dialog.endGame("GAME!", window)
+            updateHighestScore(grid.currScore, scoreFile)
+            Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_RIGHT => {
@@ -54,7 +58,8 @@ import scala.util.Random
             drawBoard()
           } else {
             SoundPlayer.play("res/loosing.wav")
-            Dialog.endGame("GAME!", window)
+            updateHighestScore(grid.currScore, scoreFile)
+            Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_DOWN => {
@@ -65,7 +70,8 @@ import scala.util.Random
             drawBoard()
           } else {
             SoundPlayer.play("res/loosing.wav")
-            Dialog.endGame("GAME!", window)
+            updateHighestScore(grid.currScore, scoreFile)
+            Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_LEFT => {
@@ -76,7 +82,8 @@ import scala.util.Random
             drawBoard()
           } else {
             SoundPlayer.play("res/loosing.wav")
-            Dialog.endGame("GAME!", window)
+            updateHighestScore(grid.currScore, scoreFile)
+            Dialog.endGame("GAME!")
           }
         }
         case _ => {
@@ -137,14 +144,15 @@ import scala.util.Random
     val labelWidth : Int = 400
     val labelHeight : Int = 70
     window.drawFillRect(gridWidth - labelWidth + offsetStart, offsetStart -10, labelWidth, labelHeight)
-    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart - 25 + labelHeight, "R : To rollback", "Arial", 0, 50, Color.white, 2, 2)
+    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart - 25 + labelHeight, "R : To refresh", "Arial", 0, 50, Color.white, 2, 2)
 
 
     window.drawFillRect(offsetStart, offsetStart * 3, labelWidth, labelHeight)
-    window.drawString(offsetStart + 20, offsetStart * 3 + 5, s"Score : ${grid.currScore}", "Arial", 0, 50, Color.black, 1, 1)
+    window.drawString(offsetStart + 20, offsetStart * 3 + 5, s"Score : ${grid.currScore}", "Arial", 0, 50, Color.white, 1, 1)
 
     window.drawFillRect(gridWidth - labelWidth + offsetStart, offsetStart * 3, labelWidth, labelHeight)
-    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart * 3 - 20 + labelHeight, s"Highest : ${grid.currScore}", "Arial", 0, 50, Color.black, 2, 2)
+    val highest_score : Int = getHighestScore(scoreFile)
+    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart * 3 - 20 + labelHeight, s"Highest : ${highest_score}", "Arial", 0, 50, Color.white, 2, 2)
 
 
     //Draw cell background
@@ -189,9 +197,36 @@ import scala.util.Random
     }
   }
 
-   def readJson(path: String) = {
-     val source = Source.fromFile(path)
-     val content = source.mkString
+   def getHighestScore(path: String) : Int = {
+     var highest_score : Int = 0
+     try {
+       val source = Source.fromFile(path)
+       val content = source.getLines().toArray
+       for(i <- content.indices){
+         highest_score = content(i).toInt
+       }
+       highest_score
+     } catch {
+       case e: Exception => {
+         println(s"Error while opening file ${path}")
+         0
+       }
+     }
+   }
+
+   def resetHighestScore(path: String) : Unit = {
+     val writer = new PrintWriter(path)
+     writer.println(0)
+     writer.close()
+   }
+
+   def updateHighestScore(score: Int, path: String) : Unit = {
+     val current_highest_score : Int = getHighestScore(path)
+     if(score > current_highest_score) {
+       val writer = new PrintWriter(path)
+       writer.println(score)
+       writer.close()
+     }
    }
 
 }
