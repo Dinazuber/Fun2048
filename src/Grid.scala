@@ -4,6 +4,7 @@ import scala.util.Random
 class Grid (size: Int = 4) {
 
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
+  var previousGrid : Array[Array[Number]] = Array.ofDim(size, size) //save the previous version of the grid for the rewind feature
   val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
 
   /** Vide la grille en mettant toutes les valeurs à 0 */
@@ -111,6 +112,7 @@ class Grid (size: Int = 4) {
   //first to be sure the left movement works properly before coding the remaining
   //direction
   def mergeUp(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -137,6 +139,7 @@ class Grid (size: Int = 4) {
     updateNumPos()
   }
   def mergeDown(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -164,6 +167,7 @@ class Grid (size: Int = 4) {
     updateNumPos()
   }
   def mergeRight(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       //Delete the 0 of the original line
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
@@ -185,6 +189,9 @@ class Grid (size: Int = 4) {
 
   /** Move all numbers to the left, merging them*/
   def mergeLeft(): Unit = {
+    copyGrid(grid, previousGrid)
+    printArray(grid)
+    printArray(previousGrid)
     for (r <- grid.indices) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
@@ -199,8 +206,28 @@ class Grid (size: Int = 4) {
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
       var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
       grid(r) = Array.concat(mergeFiltered, remainingZero)
+      printArray(previousGrid)
+      printArray(grid)
 
     }
+    updateNumPos()
+  }
+
+  /**
+   * Copy the elements of a table in another
+   * @param a The source table
+   * @param b The destination
+   */
+  def copyGrid(a: Array[Array[Number]], b : Array[Array[Number]]) : Unit = {
+    for(i <- a.indices){
+      for(j <- a.indices){
+        b(i)(j) = a(i)(j)
+      }
+    }
+  }
+
+  def getPreviousGrid() : Unit = {
+    copyGrid(previousGrid, grid)
     updateNumPos()
   }
 
