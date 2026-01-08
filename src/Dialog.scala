@@ -1,6 +1,6 @@
 import hevs.graphics.FunGraphics
 
-import javax.swing.{JButton, JFrame, JOptionPane, JTextField}
+import javax.swing.{ImageIcon, JButton, JFrame, JLabel, JOptionPane, JTextField}
 object Dialog {
 
   /**
@@ -40,5 +40,13 @@ object Dialog {
       //Finish the game
       System.exit(0)
     }
+  }
+
+  def victory(message: String) : Unit = {
+    val frame = new JFrame(message)
+    val image : ImageIcon = new ImageIcon("./res/victory.jpg")
+    frame.add(new JLabel(image))
+    frame.pack()
+    frame.setVisible(true)
   }
 }

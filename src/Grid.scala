@@ -7,6 +7,7 @@ class Grid (size: Int = 4) {
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
   var previousGrid : Array[Array[Number]] = Array.ofDim(size, size) //save the previous version of the grid for the rewind feature
   val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
+  var isGameWin : Boolean = false
 
   var currScore = 0
 
@@ -136,6 +137,9 @@ class Grid (size: Int = 4) {
           if (columnFiltered(c).number == columnFiltered(c - 1).number) {
             columnFiltered(c) = new Number(0, r, c)
             columnFiltered(c - 1) = new Number(columnFiltered(c - 1).number * 2, r, c)
+            if((columnFiltered(c-1).number) == 2048){
+              got2048()
+            }
             currScore += columnFiltered(c-1).number
             banned = c-1
           }
@@ -173,6 +177,9 @@ class Grid (size: Int = 4) {
           if (columnFiltered(c).number == columnFiltered(c + 1).number) {
             columnFiltered(c) = new Number(0, r, c)
             columnFiltered(c + 1) = new Number(columnFiltered(c + 1).number * 2, r, c)
+            if((columnFiltered(c+1).number) == 2048){
+              got2048()
+            }
             currScore += columnFiltered(c+1).number
             banned = c+1
           }
@@ -206,6 +213,9 @@ class Grid (size: Int = 4) {
             //Fill the void spot with a new 0
             lineFiltered(c) = new Number(0, r, c)
             lineFiltered(c + 1) = new Number(lineFiltered(c + 1).number * 2, r, c)
+            if((lineFiltered(c+1).number) == 2048){
+              got2048()
+            }
             banned = c + 1
             currScore += lineFiltered(c+1).number
           }
@@ -233,6 +243,9 @@ class Grid (size: Int = 4) {
             //If there's gap, fill them with 0s to keep same array length
             lineFiltered(c) = new Number(0, r, c)
             lineFiltered(c - 1) = new Number(lineFiltered(c - 1).number * 2, r, c - 1)
+            if((lineFiltered(c-1).number) == 2048){
+              got2048()
+            }
             currScore += lineFiltered(c-1).number
             banned = c-1
           }
@@ -244,6 +257,13 @@ class Grid (size: Int = 4) {
 
     }
     updateNumPos()
+  }
+
+  def got2048() : Unit = {
+    if(!isGameWin){
+      Dialog.victory("You won!!")
+    }
+    isGameWin = true
   }
 
   /**
