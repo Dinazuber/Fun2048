@@ -44,7 +44,7 @@ import scala.util.Random
             drawBoard()
           } else {
             updateHighestScore(grid.currScore, scoreFile)
-            Dialog.endGame("GAME!", window)
+            Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_RIGHT => {
@@ -54,7 +54,7 @@ import scala.util.Random
             drawBoard()
           } else {
             updateHighestScore(grid.currScore, scoreFile)
-            Dialog.endGame("GAME!", window)
+            Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_DOWN => {
@@ -64,7 +64,7 @@ import scala.util.Random
             drawBoard()
           } else {
             updateHighestScore(grid.currScore, scoreFile)
-            Dialog.endGame("GAME!", window)
+            Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_LEFT => {
@@ -74,7 +74,7 @@ import scala.util.Random
             drawBoard()
           } else {
             updateHighestScore(grid.currScore, scoreFile)
-            Dialog.endGame("GAME!", window)
+            Dialog.endGame("GAME!")
           }
         }
         case _ => {

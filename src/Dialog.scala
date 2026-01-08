@@ -19,7 +19,7 @@ object Dialog {
     return selectedValue.toString.toInt
   }
 
-  def endGame(message: String, game: FunGraphics) : Unit = {
+  def endGame(message: String) : Unit = {
     val frame = new JFrame(message)
 
     val result = JOptionPane.showConfirmDialog(frame, "Restart game", "End game", JOptionPane.YES_NO_OPTION)
@@ -30,5 +30,9 @@ object Dialog {
       //Finish the game
       System.exit(0)
     }
+  }
+
+  def win(message: String) : Unit = {
+
   }
 }
