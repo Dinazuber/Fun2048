@@ -121,10 +121,15 @@ class Grid (size: Int = 4) {
       }
       //Filter the column
       var columnFiltered : Array[Number] = column.filter(_.number != 0)
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- columnFiltered.length-1 until 0 by -1){
-        if(columnFiltered(c).number == columnFiltered(c-1).number){
-          columnFiltered(c) = new Number(0, r, c)
-          columnFiltered(c-1) = new Number(columnFiltered(c-1).number * 2, r, c)
+        if(c != banned) {
+          if (columnFiltered(c).number == columnFiltered(c - 1).number) {
+            columnFiltered(c) = new Number(0, r, c)
+            columnFiltered(c - 1) = new Number(columnFiltered(c - 1).number * 2, r, c)
+            banned = c-1
+          }
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -148,11 +153,15 @@ class Grid (size: Int = 4) {
       }
       //Filter the column
       var columnFiltered : Array[Number] = column.filter(_.number != 0)
-      //Merge if two same number
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- 0 until columnFiltered.length-1){
-        if(columnFiltered(c).number == columnFiltered(c+1).number){
-          columnFiltered(c) = new Number(0, r, c)
-          columnFiltered(c+1) = new Number(columnFiltered(c+1).number * 2, r, c)
+        if(c != banned) {
+          if (columnFiltered(c).number == columnFiltered(c + 1).number) {
+            columnFiltered(c) = new Number(0, r, c)
+            columnFiltered(c + 1) = new Number(columnFiltered(c + 1).number * 2, r, c)
+            banned = c+1
+          }
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -171,12 +180,16 @@ class Grid (size: Int = 4) {
     for(r <- grid.indices){
       //Delete the 0 of the original line
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
-      //Merge if two numbers are the same
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- 0 until lineFiltered.length-1){
-        if(lineFiltered(c).number == lineFiltered(c+1).number){
-          //Fill the void spot with a new 0
-          lineFiltered(c) = new Number(0, r, c)
-          lineFiltered(c+1) = new Number(lineFiltered(c+1).number * 2, r, c)
+        if(c != banned){
+          if(lineFiltered(c).number == lineFiltered(c+1).number) {
+            //Fill the void spot with a new 0
+            lineFiltered(c) = new Number(0, r, c)
+            lineFiltered(c + 1) = new Number(lineFiltered(c + 1).number * 2, r, c)
+            banned = c + 1
+          }
         }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
@@ -193,13 +206,17 @@ class Grid (size: Int = 4) {
     for (r <- grid.indices) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
-      //Merge if two same following numbers
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for (c <- lineFiltered.length-1 until 0 by -1) {
-          if (lineFiltered(c).number == lineFiltered(c-1).number) {
+        if(c != banned) {
+          if (lineFiltered(c).number == lineFiltered(c - 1).number) {
             //If there's gap, fill them with 0s to keep same array length
             lineFiltered(c) = new Number(0, r, c)
-            lineFiltered(c-1) = new Number(lineFiltered(c-1).number * 2, r, c-1)
+            lineFiltered(c - 1) = new Number(lineFiltered(c - 1).number * 2, r, c - 1)
+            banned = c-1
           }
+        }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
       var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
