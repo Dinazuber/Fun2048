@@ -6,7 +6,8 @@ import scala.util.Random
 
  object Game {
   private val windowWidth : Int = 1080
-  private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth, "Fun2048")
+  private val headerHeight : Int = 250
+  private var window : FunGraphics = new FunGraphics(windowWidth, windowWidth + headerHeight, "Fun2048")
 
   private val numCells : Int =  Dialog.getSizeGame("Choose between 4, 5, 6")
   private val gridWidth : Int = 960
@@ -33,7 +34,6 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
-          println(grid.currScore)
         }
         case KeyEvent.VK_RIGHT => {
           grid.mergeRight()
@@ -43,7 +43,6 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
-          println(grid.currScore)
         }
         case KeyEvent.VK_DOWN => {
           grid.mergeDown()
@@ -53,7 +52,6 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
-          println(grid.currScore)
         }
         case KeyEvent.VK_LEFT => {
           grid.mergeLeft()
@@ -63,7 +61,6 @@ import scala.util.Random
           } else {
             Dialog.endGame("GAME!", window)
           }
-          println(grid.currScore)
         }
         case _ => {
 
@@ -99,12 +96,31 @@ import scala.util.Random
 
   /** Dessine l'ensemble du plateau de jeu */
   def drawBoard() = {
+
     val offsetStart: Int = (windowWidth - gridWidth) / 2
+
+    //Draw header
+    window.drawString(offsetStart, offsetStart*2, "2048", "Arial", 0, 100, Color.black, 1, 2)
+    window.setColor(new Color(165, 148, 131))
+    val labelWidth : Int = 400
+    val labelHeight : Int = 70
+    window.drawFillRect(gridWidth - labelWidth + offsetStart, offsetStart -10, labelWidth, labelHeight)
+    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart - 25 + labelHeight, "R : To rollback", "Arial", 0, 50, Color.white, 2, 2)
+
+
+    window.drawFillRect(offsetStart, offsetStart * 3, labelWidth, labelHeight)
+    window.drawString(offsetStart + 20, offsetStart * 3 + 5, s"Score : ${grid.currScore}", "Arial", 0, 50, Color.black, 1, 1)
+
+    window.drawFillRect(gridWidth - labelWidth + offsetStart, offsetStart * 3, labelWidth, labelHeight)
+    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart * 3 - 20 + labelHeight, s"Highest : ${grid.currScore}", "Arial", 0, 50, Color.black, 2, 2)
+
+
+    //Draw cell background
     //Draw background color
     for (r <- 0 until numCells) {
       for (c <- 0 until numCells) {
         val xPos: Int = offsetStart + c*widthCell
-        val yPos: Int = offsetStart + r*widthCell
+        val yPos: Int = offsetStart + r*widthCell + headerHeight
         window.setColor(grid.getCellColor(c, r))
         //window.setColor(Color.red)
         window.drawFillRect(xPos, yPos, widthCell, widthCell)
@@ -121,8 +137,8 @@ import scala.util.Random
       val PosStart: Int = offsetStart
       val PosEnd: Int = offsetStart + numCells*widthCell
       for (c <- PosStart to PosEnd) {
-        drawWithStroke(stroke, varPos, c) //Draw Vertical lines
-        drawWithStroke(stroke, c, varPos) //Draw Horizontal lines
+        drawWithStroke(stroke, varPos, c + headerHeight) //Draw Vertical lines
+        drawWithStroke(stroke, c, varPos + headerHeight) //Draw Horizontal lines
       }
     }
   }
