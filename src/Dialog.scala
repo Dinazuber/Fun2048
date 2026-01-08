@@ -31,8 +31,4 @@ object Dialog {
       System.exit(0)
     }
   }
-
-  def win(message: String) : Unit = {
-
-  }
 }
