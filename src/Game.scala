@@ -2,6 +2,7 @@ import hevs.graphics.FunGraphics
 
 import java.awt.event.{KeyEvent, KeyListener}
 import java.awt.{Color, Font}
+import scala.io.Source
 import scala.util.Random
 
  object Game {
@@ -156,5 +157,10 @@ import scala.util.Random
       }
     }
   }
+
+   def readJson(path: String) = {
+     val source = Source.fromFile(path)
+     val content = source.mkString
+   }
 
 }
