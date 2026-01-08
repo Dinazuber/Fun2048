@@ -30,7 +30,7 @@ object Dialog {
    * @param message Message displayed on the popup
    * @param game Game to start
    */
-  def endGame(message: String, game: FunGraphics) : Unit = {
+  def endGame(message: String) : Unit = {
     val frame = new JFrame(message)
 
     val result = JOptionPane.showConfirmDialog(frame, "Restart game", "End game", JOptionPane.YES_NO_OPTION)
