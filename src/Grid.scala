@@ -49,6 +49,11 @@ class Grid (size: Int = 4) {
     grid(yPos)(xPos).number
   }
 
+  /**
+   * Look if it remains any free spots inside the grid
+   * @param currentGrid Current stat of the grid
+   * @return The state of every cell of the grid. If free or not
+   */
   def verifiesSpots(currentGrid: Array[Array[Number]]): Boolean = {
     //Verification of free spot
     var isFree: Boolean = false
@@ -62,7 +67,9 @@ class Grid (size: Int = 4) {
     isFree
   }
 
-  //Reset the available grid for a new game
+  /**
+   * Reset the available grid for a new game
+   */
   def resetAvailableGrid(): Unit = {
     for(i <- tabAvailable.indices){
       for(j <- tabAvailable(i).indices){
@@ -71,8 +78,8 @@ class Grid (size: Int = 4) {
     }
   }
 
-  /** Add a 2 at a random available spot on
-   * the board */
+  /** Add a random number on an available spot on
+   * the board. Has 20% chance to spawn a 4 instead of a 2. */
     //Returns true if it's still free
   def addRandomNumber(): Boolean = {
     val possibilities : Array[Int] = Array(2, 2, 2, 2, 2, 2, 2, 2, 4, 4)
@@ -90,8 +97,6 @@ class Grid (size: Int = 4) {
           }
         }
       }
-
-      //TODO detection of the grid if the player can still play
 
       //Get a random available position in the tab
       var isAvailable: Boolean = false
@@ -111,9 +116,9 @@ class Grid (size: Int = 4) {
     isStillFree
   }
 
-  //TODO For now i've let them blank, need to implements movement and grid display
-  //first to be sure the left movement works properly before coding the remaining
-  //direction
+  /**
+   * Merge all columns upward
+   */
   def mergeUp(): Unit = {
     copyGrid(grid, previousGrid)
     for(r <- grid.indices){
@@ -147,6 +152,10 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
+
+  /**
+   * Merge all columns downward
+   */
   def mergeDown(): Unit = {
     copyGrid(grid, previousGrid)
     for(r <- grid.indices){
@@ -180,6 +189,10 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
+
+  /**
+   * Merge all lines to the right
+   */
   def mergeRight(): Unit = {
     copyGrid(grid, previousGrid)
     for(r <- grid.indices){
@@ -206,7 +219,7 @@ class Grid (size: Int = 4) {
   }
 
 
-  /** Move all numbers to the left, merging them*/
+  /** Merge all lines to the left */
   def mergeLeft(): Unit = {
     copyGrid(grid, previousGrid)
     for (r <- grid.indices) {
@@ -246,18 +259,12 @@ class Grid (size: Int = 4) {
     }
   }
 
+  /**
+   * Get the stat of the board before the last move
+   */
   def getPreviousGrid() : Unit = {
     copyGrid(previousGrid, grid)
     updateNumPos()
   }
 
-  def printArray(f: Array[Array[Number]]): Unit = {
-    for (i <- f.indices) {
-      for (j <- f(i).indices) {
-        print(s"${f(i)(j)} ")
-      }
-      println("")
-    }
-    println("\n")
-  }
 }
