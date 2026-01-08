@@ -2,6 +2,12 @@ import hevs.graphics.FunGraphics
 
 import javax.swing.{JButton, JFrame, JOptionPane, JTextField}
 object Dialog {
+
+  /**
+   * Display a popup for the user to select the amount of cell per lines
+   * @param message Message displayed on the popup
+   * @return
+   */
   def getSizeGame(message: String): Int = {
     var possibleValues = Array[AnyRef]("4", "5", "6")
 
@@ -19,6 +25,11 @@ object Dialog {
     return selectedValue.toString.toInt
   }
 
+  /**
+   * Popup to infomr the player that the game ended
+   * @param message Message displayed on the popup
+   * @param game Game to start
+   */
   def endGame(message: String, game: FunGraphics) : Unit = {
     val frame = new JFrame(message)
 

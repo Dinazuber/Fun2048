@@ -25,7 +25,7 @@ import scala.util.Random
 
     }
 
-    //TODO if the player presses "R", it'll refresh the game
+    //Manage the key pressed events
     override def keyReleased(e: KeyEvent): Unit = {
       e.getKeyCode match {
         case KeyEvent.VK_R => {
@@ -36,7 +36,7 @@ import scala.util.Random
         }
         case KeyEvent.VK_UP => {
           grid.mergeUp()
-          resetFunGrid()
+          clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
@@ -45,7 +45,7 @@ import scala.util.Random
         }
         case KeyEvent.VK_RIGHT => {
           grid.mergeRight()
-          resetFunGrid()
+          clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
@@ -54,7 +54,7 @@ import scala.util.Random
         }
         case KeyEvent.VK_DOWN => {
           grid.mergeDown()
-          resetFunGrid()
+          clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
@@ -63,7 +63,7 @@ import scala.util.Random
         }
         case KeyEvent.VK_LEFT => {
           grid.mergeLeft()
-          resetFunGrid()
+          clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
@@ -78,12 +78,20 @@ import scala.util.Random
   }
   window.setKeyManager(keyListener)
 
-  def resetFunGrid() : Unit = {
+
+   /**
+    * Clear the window
+    */
+   def clearWindow() : Unit = {
     window.clear()
   }
 
+
+   /**
+    * Reset and start a new game
+    */
   def resetGame() : Unit = {
-    window.clear()
+    clearWindow()
     startNewGame()
     grid.resetAvailableGrid()
   }
@@ -92,16 +100,16 @@ import scala.util.Random
     * Gives the option to rewind one action of the game
     */
    def rewindGame() : Unit = {
-     window.clear()
+     clearWindow()
      grid.getPreviousGrid()
      drawBoard()
    }
 
-  /** Permet de lancer une nouvelle partie */
+  /** Allow to start a new game */
   def startNewGame(): Unit = {
     grid = new Grid(numCells)
     grid.resetGrid()
-    resetFunGrid()
+    clearWindowclearWindow()
     val rdmStart : Int = Random.nextInt(3)
     for(i <- 0 to rdmStart){
       grid.addRandomNumber()
@@ -109,7 +117,7 @@ import scala.util.Random
     drawBoard()
   }
 
-  /** Dessine l'ensemble du plateau de jeu */
+  /** Draw the entire board in the window */
   def drawBoard() = {
 
     val offsetStart: Int = (windowWidth - gridWidth) / 2
@@ -159,10 +167,10 @@ import scala.util.Random
   }
 
   /**
-   *  Permet de dessiner un pixel avec une largeur de pinceau définit
-   * @param brushSize Taille du pinceau
-   * @param xPos  Position x où dessiner
-   * @param yPos  Position y où dessiner
+   *  Draw a pixel using a brush with a stroke
+   * @param brushSize Size of the stroke
+   * @param xPos  X pos to draw
+   * @param yPos  Y pos to draw
    */
   def drawWithStroke(brushSize: Int, xPos: Int, yPos: Int) = {
     for (i <- -1*brushSize to brushSize) {

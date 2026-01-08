@@ -7,6 +7,12 @@ class Number {
   var yPosGrid: Int = _ //Define it's Y position (index) on the grid
   var bgColor = new Color(255, 255, 255)
 
+  /**
+   *
+   * @param num Number displayed in the cell
+   * @param xpos X Index inside the grid
+   * @param ypos Y Index inside the grid
+   */
   def this(num: Int = 0, xpos: Int, ypos: Int) = {
     this()
     number = num
@@ -15,9 +21,12 @@ class Number {
     setColor(number)
   }
 
+  /**
+   * Set the background color for the cell according to a number
+   * @param number Number that define the color
+   */
   private def setColor(number: Int) = {
     number match {
-      //TODO Need to change the colors to the matching one from the OG game
       case 0 => bgColor = new Color(255, 255, 255)
 
       case 2 => bgColor = new Color(238, 228, 218)
@@ -46,6 +55,10 @@ class Number {
     }
   }
 
+  /**
+   * Overrriden ToString method
+   * @return The number displayed in the cell
+   */
   override def toString: String = {
     s"${number}"
   }
