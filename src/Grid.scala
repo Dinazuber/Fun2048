@@ -5,6 +5,7 @@ class Grid (size: Int = 4) {
 
   //Variables
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
+  var previousGrid : Array[Array[Number]] = Array.ofDim(size, size) //save the previous version of the grid for the rewind feature
   val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
 
   /** Vide la grille en mettant toutes les valeurs à 0 */
@@ -88,6 +89,8 @@ class Grid (size: Int = 4) {
         }
       }
 
+      //TODO detection of the grid if the player can still play
+
       //Get a random available position in the tab
       var isAvailable: Boolean = false
       var posX: Int = 0
@@ -109,7 +112,8 @@ class Grid (size: Int = 4) {
   //TODO For now i've let them blank, need to implements movement and grid display
   //first to be sure the left movement works properly before coding the remaining
   //direction
-  def mergeUp() = {
+  def mergeUp(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -118,10 +122,15 @@ class Grid (size: Int = 4) {
       }
       //Filter the column
       var columnFiltered : Array[Number] = column.filter(_.number != 0)
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- columnFiltered.length-1 until 0 by -1){
-        if(columnFiltered(c).number == columnFiltered(c-1).number){
-          columnFiltered(c) = new Number(0, r, c)
-          columnFiltered(c-1) = new Number(columnFiltered(c-1).number * 2, r, c)
+        if(c != banned) {
+          if (columnFiltered(c).number == columnFiltered(c - 1).number) {
+            columnFiltered(c) = new Number(0, r, c)
+            columnFiltered(c - 1) = new Number(columnFiltered(c - 1).number * 2, r, c)
+            banned = c-1
+          }
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -135,7 +144,8 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
-  def mergeDown() = {
+  def mergeDown(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -144,11 +154,15 @@ class Grid (size: Int = 4) {
       }
       //Filter the column
       var columnFiltered : Array[Number] = column.filter(_.number != 0)
-      //Merge if two same number
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- 0 until columnFiltered.length-1){
-        if(columnFiltered(c).number == columnFiltered(c+1).number){
-          columnFiltered(c) = new Number(0, r, c)
-          columnFiltered(c+1) = new Number(columnFiltered(c+1).number * 2, r, c)
+        if(c != banned) {
+          if (columnFiltered(c).number == columnFiltered(c + 1).number) {
+            columnFiltered(c) = new Number(0, r, c)
+            columnFiltered(c + 1) = new Number(columnFiltered(c + 1).number * 2, r, c)
+            banned = c+1
+          }
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -162,16 +176,21 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
-  def mergeRight() = {
+  def mergeRight(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       //Delete the 0 of the original line
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
-      //Merge if two numbers are the same
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- 0 until lineFiltered.length-1){
-        if(lineFiltered(c).number == lineFiltered(c+1).number){
-          //Fill the void spot with a new 0
-          lineFiltered(c) = new Number(0, r, c)
-          lineFiltered(c+1) = new Number(lineFiltered(c+1).number * 2, r, c)
+        if(c != banned){
+          if(lineFiltered(c).number == lineFiltered(c+1).number) {
+            //Fill the void spot with a new 0
+            lineFiltered(c) = new Number(0, r, c)
+            lineFiltered(c + 1) = new Number(lineFiltered(c + 1).number * 2, r, c)
+            banned = c + 1
+          }
         }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
@@ -183,23 +202,46 @@ class Grid (size: Int = 4) {
 
 
   /** Move all numbers to the left, merging them*/
-  def mergeLeft() = {
+  def mergeLeft(): Unit = {
+    copyGrid(grid, previousGrid)
     for (r <- grid.indices) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
-      //Merge if two same following numbers
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for (c <- lineFiltered.length-1 until 0 by -1) {
-          if (lineFiltered(c).number == lineFiltered(c-1).number) {
+        if(c != banned) {
+          if (lineFiltered(c).number == lineFiltered(c - 1).number) {
             //If there's gap, fill them with 0s to keep same array length
             lineFiltered(c) = new Number(0, r, c)
-            lineFiltered(c-1) = new Number(lineFiltered(c-1).number * 2, r, c-1)
+            lineFiltered(c - 1) = new Number(lineFiltered(c - 1).number * 2, r, c - 1)
+            banned = c-1
           }
+        }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
       var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
       grid(r) = Array.concat(mergeFiltered, remainingZero)
 
     }
+    updateNumPos()
+  }
+
+  /**
+   * Copy the elements of a table in another
+   * @param a The source table
+   * @param b The destination
+   */
+  def copyGrid(a: Array[Array[Number]], b : Array[Array[Number]]) : Unit = {
+    for(i <- a.indices){
+      for(j <- a.indices){
+        b(i)(j) = a(i)(j)
+      }
+    }
+  }
+
+  def getPreviousGrid() : Unit = {
+    copyGrid(previousGrid, grid)
     updateNumPos()
   }
 
