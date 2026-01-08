@@ -120,14 +120,14 @@ import scala.util.Random
     val labelWidth : Int = 400
     val labelHeight : Int = 70
     window.drawFillRect(gridWidth - labelWidth + offsetStart, offsetStart -10, labelWidth, labelHeight)
-    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart - 25 + labelHeight, "R : To rollback", "Arial", 0, 50, Color.white, 2, 2)
+    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart - 25 + labelHeight, "R : To refresh", "Arial", 0, 50, Color.white, 2, 2)
 
 
     window.drawFillRect(offsetStart, offsetStart * 3, labelWidth, labelHeight)
-    window.drawString(offsetStart + 20, offsetStart * 3 + 5, s"Score : ${grid.currScore}", "Arial", 0, 50, Color.black, 1, 1)
+    window.drawString(offsetStart + 20, offsetStart * 3 + 5, s"Score : ${grid.currScore}", "Arial", 0, 50, Color.white, 1, 1)
 
     window.drawFillRect(gridWidth - labelWidth + offsetStart, offsetStart * 3, labelWidth, labelHeight)
-    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart * 3 - 20 + labelHeight, s"Highest : ${grid.currScore}", "Arial", 0, 50, Color.black, 2, 2)
+    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart * 3 - 20 + labelHeight, s"Highest : ${grid.currScore}", "Arial", 0, 50, Color.white, 2, 2)
 
 
     //Draw cell background
