@@ -6,6 +6,7 @@ import java.io.{BufferedOutputStream, FileOutputStream, PrintStream, PrintWriter
 import scala.io.Source
 import scala.util.Random
 
+
  object Game {
   private val windowWidth : Int = 1080
   private val headerHeight : Int = 250
@@ -38,41 +39,49 @@ import scala.util.Random
           rewindGame()
         }
         case KeyEvent.VK_UP => {
+          SoundPlayer.play("res/pop.wav")
           grid.mergeUp()
           clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
+            SoundPlayer.play("res/loosing.wav")
             updateHighestScore(grid.currScore, scoreFile)
             Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_RIGHT => {
+          SoundPlayer.play("res/pop.wav")
           grid.mergeRight()
           clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
+            SoundPlayer.play("res/loosing.wav")
             updateHighestScore(grid.currScore, scoreFile)
             Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_DOWN => {
+          SoundPlayer.play("res/pop.wav")
           grid.mergeDown()
           clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
+            SoundPlayer.play("res/loosing.wav")
             updateHighestScore(grid.currScore, scoreFile)
             Dialog.endGame("GAME!")
           }
         }
         case KeyEvent.VK_LEFT => {
+          SoundPlayer.play("res/pop.wav")
           grid.mergeLeft()
           clearWindow()
           if(grid.addRandomNumber()){
             drawBoard()
           } else {
+            SoundPlayer.play("res/loosing.wav")
             updateHighestScore(grid.currScore, scoreFile)
             Dialog.endGame("GAME!")
           }
@@ -116,7 +125,7 @@ import scala.util.Random
   def startNewGame(): Unit = {
     grid = new Grid(numCells)
     grid.resetGrid()
-    clearWindowclearWindow()
+    clearWindow()
     val rdmStart : Int = Random.nextInt(3)
     for(i <- 0 to rdmStart){
       grid.addRandomNumber()
