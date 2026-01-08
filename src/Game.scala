@@ -116,7 +116,7 @@ import scala.util.Random
   def startNewGame(): Unit = {
     grid = new Grid(numCells)
     grid.resetGrid()
-    clearWindowclearWindow()
+    clearWindow()
     val rdmStart : Int = Random.nextInt(3)
     for(i <- 0 to rdmStart){
       grid.addRandomNumber()
