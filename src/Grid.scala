@@ -190,8 +190,6 @@ class Grid (size: Int = 4) {
   /** Move all numbers to the left, merging them*/
   def mergeLeft(): Unit = {
     copyGrid(grid, previousGrid)
-    printArray(grid)
-    printArray(previousGrid)
     for (r <- grid.indices) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
@@ -206,8 +204,6 @@ class Grid (size: Int = 4) {
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
       var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
       grid(r) = Array.concat(mergeFiltered, remainingZero)
-      printArray(previousGrid)
-      printArray(grid)
 
     }
     updateNumPos()
