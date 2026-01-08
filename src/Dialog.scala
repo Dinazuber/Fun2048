@@ -28,7 +28,6 @@ object Dialog {
   /**
    * Popup to inform the player that the game ended
    * @param message Message displayed on the popup
-   * @param game Game to start
    */
   def endGame(message: String) : Unit = {
     val frame = new JFrame(message)
