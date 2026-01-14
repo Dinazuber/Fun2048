@@ -14,5 +14,15 @@ Reach 2048 to win ! But it doesn't end there...
 - **Backspace** : To undo your last move !
 - **R** : To restart ! 
 
-## Take a look ! 
+## Take a look at the main game! 
 ![game](res/screenshots/2048.png)
+
+## This happens when you win
+![victory](res/screenshots/victory.png)
+
+## And this happens when you loose!
+![victory](res/screenshots/loosing.png)
+
+## An example of the gameplay !
+Link to the video : 
+https://youtu.be/SJeiwDJO9js

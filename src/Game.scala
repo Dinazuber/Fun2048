@@ -144,7 +144,7 @@ import scala.util.Random
     val labelWidth : Int = 400
     val labelHeight : Int = 70
     window.drawFillRect(gridWidth - labelWidth + offsetStart, offsetStart -10, labelWidth, labelHeight)
-    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart - 25 + labelHeight, "R : To refresh", "Arial", 0, 50, Color.white, 2, 2)
+    window.drawString(gridWidth - labelWidth + offsetStart + labelHeight/2, offsetStart - 25 + labelHeight, "R : To restart", "Arial", 0, 50, Color.white, 2, 2)
 
 
     window.drawFillRect(offsetStart, offsetStart * 3, labelWidth, labelHeight)
