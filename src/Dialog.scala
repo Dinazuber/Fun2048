@@ -1,6 +1,8 @@
 import hevs.graphics.FunGraphics
 
-import javax.swing.{ImageIcon, JButton, JFrame, JLabel, JOptionPane, JTextField}
+import java.awt.BorderLayout
+import java.awt.event.WindowEvent
+import javax.swing.{ImageIcon, JFrame, JLabel, JOptionPane, JPanel}
 object Dialog {
 
   /**
@@ -31,22 +33,26 @@ object Dialog {
    */
   def endGame(message: String) : Unit = {
     val frame = new JFrame(message)
-
+    var looseWindow = popUp("You loose!", "./res/skeleton-banging-shield.gif")
     val result = JOptionPane.showConfirmDialog(frame, "Restart game", "End game", JOptionPane.YES_NO_OPTION)
     if(result == JOptionPane.YES_OPTION){
       //game.clear()
+      looseWindow.dispatchEvent(new WindowEvent(looseWindow, WindowEvent.WINDOW_CLOSING))
       Game.startNewGame()
     } else {
-      //Finish the game
       System.exit(0)
     }
   }
 
-  def victory(message: String) : Unit = {
+  def popUp(message: String, src: String): JFrame = {
     val frame = new JFrame(message)
-    val image : ImageIcon = new ImageIcon("./res/victory.jpg")
+    frame.setSize(1080, 250)
+    val image: ImageIcon = new ImageIcon(src)
     frame.add(new JLabel(image))
     frame.pack()
+    frame.setLocationRelativeTo(null);
     frame.setVisible(true)
+
+    frame
   }
 }
