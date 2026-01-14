@@ -262,7 +262,7 @@ class Grid (size: Int = 4) {
   def got2048() : Unit = {
     if(!isGameWin){
       SoundPlayer.play("./res/win.wav")
-      Dialog.victory("You won!!")
+      Dialog.popUp("You won!!", "./res/victory.jpg")
     }
     isGameWin = true
   }
