@@ -24,5 +24,6 @@ Reach 2048 to win ! But it doesn't end there...
 ![victory](res/screenshots/loosing.png)
 
 ## An example of the gameplay !
-Link to the video : 
-https://youtu.be/SJeiwDJO9js
+Link to the video :
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/SJeiwDJO9js/0.jpg)](https://www.youtube.com/watch?v=SJeiwDJO9js)
