@@ -1,7 +1,15 @@
 import hevs.graphics.FunGraphics
 
-import javax.swing.{JButton, JFrame, JOptionPane, JTextField}
+import java.awt.BorderLayout
+import java.awt.event.WindowEvent
+import javax.swing.{ImageIcon, JFrame, JLabel, JOptionPane, JPanel}
 object Dialog {
+
+  /**
+   * Display a popup for the user to select the amount of cell per lines
+   * @param message Message displayed on the popup
+   * @return
+   */
   def getSizeGame(message: String): Int = {
     var possibleValues = Array[AnyRef]("4", "5", "6")
 
@@ -19,16 +27,38 @@ object Dialog {
     return selectedValue.toString.toInt
   }
 
-  def endGame(message: String, game: FunGraphics) : Unit = {
+  /**
+   * Popup to inform the player that the game ended
+   * @param message Message displayed on the popup
+   */
+  def endGame(message: String) : Unit = {
     val frame = new JFrame(message)
-
+    var looseWindow = popUp("You loose!", "./res/skeleton-banging-shield.gif")
     val result = JOptionPane.showConfirmDialog(frame, "Restart game", "End game", JOptionPane.YES_NO_OPTION)
     if(result == JOptionPane.YES_OPTION){
       //game.clear()
+      looseWindow.dispatchEvent(new WindowEvent(looseWindow, WindowEvent.WINDOW_CLOSING))
       Game.startNewGame()
     } else {
-      //Finish the game
       System.exit(0)
     }
+  }
+
+  /**
+   * Create a pop up to inform the player
+   * @param message Name of the window
+   * @param src Source of the image
+   * @return  return the window, to close it for example
+   */
+  def popUp(message: String, src: String): JFrame = {
+    val frame = new JFrame(message)
+    frame.setSize(1080, 250)
+    val image: ImageIcon = new ImageIcon(src)
+    frame.add(new JLabel(image))
+    frame.pack()
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true)
+
+    frame
   }
 }

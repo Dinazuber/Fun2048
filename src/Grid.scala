@@ -3,8 +3,13 @@ import scala.util.Random
 
 class Grid (size: Int = 4) {
 
+  //Variables
   var grid: Array[Array[Number]] = Array.ofDim(size, size)
+  var previousGrid : Array[Array[Number]] = Array.ofDim(size, size) //save the previous version of the grid for the rewind feature
   val tabAvailable : Array[Array[Boolean]] = Array.ofDim[Boolean](grid.length, grid(0).length)
+  var isGameWin : Boolean = false
+
+  var currScore = 0
 
   /** Vide la grille en mettant toutes les valeurs à 0 */
   def resetGrid() = {
@@ -45,6 +50,11 @@ class Grid (size: Int = 4) {
     grid(yPos)(xPos).number
   }
 
+  /**
+   * Look if it remains any free spots inside the grid
+   * @param currentGrid Current stat of the grid
+   * @return The state of every cell of the grid. If free or not
+   */
   def verifiesSpots(currentGrid: Array[Array[Number]]): Boolean = {
     //Verification of free spot
     var isFree: Boolean = false
@@ -58,7 +68,9 @@ class Grid (size: Int = 4) {
     isFree
   }
 
-  //Reset the available grid for a new game
+  /**
+   * Reset the available grid for a new game
+   */
   def resetAvailableGrid(): Unit = {
     for(i <- tabAvailable.indices){
       for(j <- tabAvailable(i).indices){
@@ -67,8 +79,8 @@ class Grid (size: Int = 4) {
     }
   }
 
-  /** Add a 2 at a random available spot on
-   * the board */
+  /** Add a random number on an available spot on
+   * the board. Has 20% chance to spawn a 4 instead of a 2. */
     //Returns true if it's still free
   def addRandomNumber(): Boolean = {
     val possibilities : Array[Int] = Array(2, 2, 2, 2, 2, 2, 2, 2, 4, 4)
@@ -105,10 +117,11 @@ class Grid (size: Int = 4) {
     isStillFree
   }
 
-  //TODO For now i've let them blank, need to implements movement and grid display
-  //first to be sure the left movement works properly before coding the remaining
-  //direction
-  def mergeUp() = {
+  /**
+   * Merge all columns upward
+   */
+  def mergeUp(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -117,10 +130,19 @@ class Grid (size: Int = 4) {
       }
       //Filter the column
       var columnFiltered : Array[Number] = column.filter(_.number != 0)
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- columnFiltered.length-1 until 0 by -1){
-        if(columnFiltered(c).number == columnFiltered(c-1).number){
-          columnFiltered(c) = new Number(0, r, c)
-          columnFiltered(c-1) = new Number(columnFiltered(c-1).number * 2, r, c)
+        if(c != banned) {
+          if (columnFiltered(c).number == columnFiltered(c - 1).number) {
+            columnFiltered(c) = new Number(0, r, c)
+            columnFiltered(c - 1) = new Number(columnFiltered(c - 1).number * 2, r, c)
+            if((columnFiltered(c-1).number) == 2048){
+              got2048()
+            }
+            currScore += columnFiltered(c-1).number
+            banned = c-1
+          }
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -134,7 +156,12 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
-  def mergeDown() = {
+
+  /**
+   * Merge all columns downward
+   */
+  def mergeDown(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       var column : Array[Number] = new Array[Number](grid.length)
       //Get the column
@@ -143,11 +170,19 @@ class Grid (size: Int = 4) {
       }
       //Filter the column
       var columnFiltered : Array[Number] = column.filter(_.number != 0)
-      //Merge if two same number
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- 0 until columnFiltered.length-1){
-        if(columnFiltered(c).number == columnFiltered(c+1).number){
-          columnFiltered(c) = new Number(0, r, c)
-          columnFiltered(c+1) = new Number(columnFiltered(c+1).number * 2, r, c)
+        if(c != banned) {
+          if (columnFiltered(c).number == columnFiltered(c + 1).number) {
+            columnFiltered(c) = new Number(0, r, c)
+            columnFiltered(c + 1) = new Number(columnFiltered(c + 1).number * 2, r, c)
+            if((columnFiltered(c+1).number) == 2048){
+              got2048()
+            }
+            currScore += columnFiltered(c+1).number
+            banned = c+1
+          }
         }
       }
       var mergeFiltered : Array[Number] = columnFiltered.filter(_.number != 0)
@@ -161,16 +196,29 @@ class Grid (size: Int = 4) {
     }
     updateNumPos()
   }
-  def mergeRight() = {
+
+  /**
+   * Merge all lines to the right
+   */
+  def mergeRight(): Unit = {
+    copyGrid(grid, previousGrid)
     for(r <- grid.indices){
       //Delete the 0 of the original line
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
-      //Merge if two numbers are the same
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for(c <- 0 until lineFiltered.length-1){
-        if(lineFiltered(c).number == lineFiltered(c+1).number){
-          //Fill the void spot with a new 0
-          lineFiltered(c) = new Number(0, r, c)
-          lineFiltered(c+1) = new Number(lineFiltered(c+1).number * 2, r, c)
+        if(c != banned){
+          if(lineFiltered(c).number == lineFiltered(c+1).number) {
+            //Fill the void spot with a new 0
+            lineFiltered(c) = new Number(0, r, c)
+            lineFiltered(c + 1) = new Number(lineFiltered(c + 1).number * 2, r, c)
+            if((lineFiltered(c+1).number) == 2048){
+              got2048()
+            }
+            banned = c + 1
+            currScore += lineFiltered(c+1).number
+          }
         }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
@@ -181,18 +229,27 @@ class Grid (size: Int = 4) {
   }
 
 
-  /** Move all numbers to the left, merging them*/
-  def mergeLeft() = {
+  /** Merge all lines to the left */
+  def mergeLeft(): Unit = {
+    copyGrid(grid, previousGrid)
     for (r <- grid.indices) {
       //Delete all 0s, cause all number to collapse to the left
       var lineFiltered: Array[Number] = grid(r).filter(_.number != 0)
-      //Merge if two same following numbers
+      //ID of the banned column (if a merge already happened it's banned)
+      var banned : Int = 10
       for (c <- lineFiltered.length-1 until 0 by -1) {
-          if (lineFiltered(c).number == lineFiltered(c-1).number) {
+        if(c != banned) {
+          if (lineFiltered(c).number == lineFiltered(c - 1).number) {
             //If there's gap, fill them with 0s to keep same array length
             lineFiltered(c) = new Number(0, r, c)
-            lineFiltered(c-1) = new Number(lineFiltered(c-1).number * 2, r, c-1)
+            lineFiltered(c - 1) = new Number(lineFiltered(c - 1).number * 2, r, c - 1)
+            if((lineFiltered(c-1).number) == 2048){
+              got2048()
+            }
+            currScore += lineFiltered(c-1).number
+            banned = c-1
           }
+        }
       }
       var mergeFiltered: Array[Number] = lineFiltered.filter(_.number != 0)
       var remainingZero: Array[Number] = Array.fill(grid(r).length - mergeFiltered.length)(new Number(0, 0, 0))
@@ -202,13 +259,33 @@ class Grid (size: Int = 4) {
     updateNumPos()
   }
 
-  def printArray(f: Array[Array[Number]]): Unit = {
-    for (i <- f.indices) {
-      for (j <- f(i).indices) {
-        print(s"${f(i)(j)} ")
-      }
-      println("")
+  def got2048() : Unit = {
+    if(!isGameWin){
+      SoundPlayer.play("./res/win.wav")
+      Dialog.popUp("You won!!", "./res/victory.jpg")
     }
-    println("\n")
+    isGameWin = true
   }
+
+  /**
+   * Copy the elements of a table in another
+   * @param a The source table
+   * @param b The destination
+   */
+  def copyGrid(a: Array[Array[Number]], b : Array[Array[Number]]) : Unit = {
+    for(i <- a.indices){
+      for(j <- a.indices){
+        b(i)(j) = a(i)(j)
+      }
+    }
+  }
+
+  /**
+   * Get the stat of the board before the last move
+   */
+  def getPreviousGrid() : Unit = {
+    copyGrid(previousGrid, grid)
+    updateNumPos()
+  }
+
 }
