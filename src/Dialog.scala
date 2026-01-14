@@ -44,6 +44,12 @@ object Dialog {
     }
   }
 
+  /**
+   * Create a pop up to inform the player
+   * @param message Name of the window
+   * @param src Source of the image
+   * @return  return the window, to close it for example
+   */
   def popUp(message: String, src: String): JFrame = {
     val frame = new JFrame(message)
     frame.setSize(1080, 250)
